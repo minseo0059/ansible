@@ -1,0 +1,30 @@
+- name: install nginx
+  hosts: u22c
+  become: yes
+  tasks:
+
+    - name: update cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 9600
+
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: nginx service start
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: insert text in index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: Hello^^~!
+
+    - name: nginx service restart
+      service:
+        name: nginx
+        state: restarted
